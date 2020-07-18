@@ -10,13 +10,8 @@
         force_apt_get: yes
         # upgrade: true
     - name: remove lockfile
-      command: rm -rf /var/lib/dpkg/lock
-    - name: remove lockfile
-      command: rm -rf /var/lib/dpkg/lock-frontend
-    - name: remove lockfile
-      command: rm -rf /var/cache/apt/archives/lock
-    
-
+      command: rm -rf /var/lib/dpkg/lock /var/lib/dpkg/lock-frontend /var/cache/apt/archives/lock
+      
     - name: apt upgrade
       apt:
         # update_cache: yes
