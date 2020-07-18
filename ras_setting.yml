@@ -3,15 +3,28 @@
   become: yes
   gather_facts: no
   tasks:
-    - name: apt upgrade
+    - name: apt update
       apt:
         update_cache: yes
         cache_valid_time: 3600
         force_apt_get: yes
+        # upgrade: true
+    - name: remove lockfile
+      command: rm -rf /var/lib/dpkg/lock
+    - name: remove lockfile
+      command: rm -rf /var/lib/dpkg/lock-frontend
+    - name: remove lockfile
+      command: rm -rf /var/cache/apt/archives/lock
+    
+
+    - name: apt upgrade
+      apt:
+        # update_cache: yes
+        # cache_valid_time: 3600
+        # force_apt_get: yes
         upgrade: true
       register: apt_result
-      
-    - name: apt upgrade
+    - name: debug
       debug: 
         msg: "{{apt_result.msg.split('\n')}}"
     - name: Replace a localhost entry with our own
