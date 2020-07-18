@@ -10,3 +10,33 @@
         force_apt_get: yes
         upgrade: true
       register: apt_result
+      
+    - name: apt upgrade
+      debug: 
+        msg: "{{apt_result.msg.split('\n')}}"
+    - name: Replace a localhost entry with our own
+      lineinfile:
+        path: /etc/hosts
+        regexp: '^127\.0\.0\.1'
+        line: 127.0.0.1 u-master
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Replace a localhost entry with hostname
+      replace:
+        path: /etc/hostname
+        regexp: '^(.+)$'
+        replace: ''
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Insert a hostname u-master
+      lineinfile:
+        path: /etc/hostname
+        # regexp: '^127\.0\.0\.1'
+        line: u-master
+        owner: root
+        group: root
+        mode: '0644'
+    - name: reboot the machine with all defaults
+      command: sudo reboot
